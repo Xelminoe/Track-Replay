@@ -154,7 +154,7 @@
         } else if (text.includes('captured')) {
             type = 'capture';
             portals.length = 1;
-        } else if (text.includes('deployed a Resonator on')) {
+        } else if (text.includes('deployed a resonator on')) {
             type = 'deploy';
             portals.length = 1;
         } else {
@@ -448,7 +448,7 @@
 
             const dKm = haversineKm(a1.lat, a1.lng, a2.lat, a2.lng);
             const dtMs = Math.max(0, curr.ts - prev.ts);
-            const kmh = dtMs > 0 ? (dKm / (dtMs / 3600000)) : 0;
+            const kmh = (dtMs > 0 && dKm > 0.08) ? ((dKm - 0.08) / (dtMs / 3600000)) : 0;
 
             segs.push({
                 fromEv: prev,
@@ -501,7 +501,7 @@
                   `<hr style="margin:6px 0;"/>` +
                   `<div>Δt: ${formatDuration(seg.dtMs)}</div>` +
                   `<div>Distance: ${seg.dKm.toFixed(3)} km</div>` +
-                  `<div>Speed (est.): ${isFinite(seg.kmh) ? seg.kmh.toFixed(2) : '—'} km/h</div>`;
+                  `<div> Min Speed: ${( isFinite(seg.kmh) && seg.kmh > 0 ) ? seg.kmh.toFixed(2) : '—'} km/h</div>`;
 
             pl.bindPopup(html, { maxWidth: 320 });
             pl.addTo(RENDER.state.layer);
