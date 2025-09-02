@@ -2,7 +2,7 @@
 // @id             iitc-plugin-comm-exporter
 // @name           COMM Exporter
 // @category       COMM
-// @version        3.5.101
+// @version        3.5.1
 // @description    Export COMM logs in a time + map range using direct fetch to /r/getPlexts
 // @match          https://intel.ingress.com/*
 // @grant          none
@@ -242,7 +242,7 @@ function wrapper(plugin_info) {
 
     const parsed = collected
       .map(r => window.IITC.comm.parseMsgData(r))
-      .filter(m => m.type !== 'SYSTEM_NARROWCAST' && m.type !== 'PLAYER_GENERATED')
+      .filter(m => m.type !== 'SYSTEM_NARROWCAST' && m.alert == false)
       .map(m => {
         if (m.markup) {
           m.markup.forEach(entry => {
